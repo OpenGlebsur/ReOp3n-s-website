@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReOp3n's Projects</title>
+    <style>
+        :root {
+            --bg: #1a1a1a;
+            --tile-blue: #0078d7;
+            --tile-green: #107c10;
+            --tile-orange: #d83b01;
+            --tile-red: #e81123;
+            --tile-purple: #5c2d91;
+            --tile-teal: #008272;
+            --tile-cyan: #0078d7;
+            --tile-lime: #6bb700;
+            --tile-magenta: #b4009e;
+            --tile-cobalt: #0050b3;
+            --tile-steel: #4a5459;
+            --text-light: #ffffff;
+            --text-dark: #1a1a1a;
+            --surface: #2d2d2d;
+            --accent: #0078d7;
+            --shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+            --tile-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            --tile-hover-shadow: 0 8px 28px rgba(0, 0, 0, 0.6);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Segoe WP', 'Helvetica Neue', 'Roboto', sans-serif;
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 20% 20%, #1e1e1e 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, #1c1c1c 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 0%, #222 0%, transparent 50%);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            user-select: none;
+        }
+
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #444;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Header */
+        .header {
+            text-align: left;
+            margin-bottom: 32px;
+            padding: 20px 10px 0 10px;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 300;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .header h1 .highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .header .subtitle {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #888;
+            margin-top: 6px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .header .accent-line {
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent);
+            margin-top: 12px;
+            border-radius: 2px;
+        }
+
+        /* Tile Grid */
+        .tile-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-auto-rows: 160px;
+            gap: 14px;
+            padding: 0 10px;
+        }
+
+        /* Base Tile */
+        .tile {
+            position: relative;
+            background-color: #333;
+            border-radius: 0px;
+            cursor: pointer;
+            overflow: hidden;
+            text-decoration: none;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 18px 16px;
+            transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1.2),
+                box-shadow 0.25s ease,
+                filter 0.2s ease;
+            box-shadow: var(--tile-shadow);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            min-height: 160px;
+        }
+
+        .tile:hover {
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: var(--tile-hover-shadow);
+            filter: brightness(1.1);
+            z-index: 10;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+        .tile:active {
+            transform: translateY(-1px) scale(0.98);
+            filter: brightness(0.95);
+            transition: transform 0.08s ease, filter 0.08s ease;
+        }
+
+        /* Tile sizes */
+        .tile-medium {
+            grid-column: span 2;
+            grid-row: span 1;
+        }
+
+        .tile-wide {
+            grid-column: span 4;
+            grid-row: span 1;
+        }
+
+        .tile-small {
+            grid-column: span 1;
+            grid-row: span 1;
+            min-height: 160px;
+        }
+
+        /* Tile colors */
+        .tile-blue {
+            background: linear-gradient(145deg, #0078d7 0%, #005a9e 100%);
+        }
+        .tile-green {
+            background: linear-gradient(145deg, #107c10 0%, #0b5e0b 100%);
+        }
+        .tile-orange {
+            background: linear-gradient(145deg, #d83b01 0%, #a52c00 100%);
+        }
+        .tile-red {
+            background: linear-gradient(145deg, #e81123 0%, #b50d1a 100%);
+        }
+        .tile-purple {
+            background: linear-gradient(145deg, #6b2fa0 0%, #4a1d73 100%);
+        }
+        .tile-teal {
+            background: linear-gradient(145deg, #008272 0%, #005e54 100%);
+        }
+        .tile-cobalt {
+            background: linear-gradient(145deg, #0050b3 0%, #003a80 100%);
+        }
+        .tile-steel {
+            background: linear-gradient(145deg, #4a5459 0%, #353b3f 100%);
+        }
+
+        /* Tile content */
+        .tile-icon-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .tile-icon {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            border-radius: 0px;
+            flex-shrink: 0;
+            image-rendering: auto;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+            transition: transform 0.3s ease;
+        }
+
+        .tile:hover .tile-icon {
+            transform: scale(1.08);
+        }
+
+        .tile-badge {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 5px 10px;
+            border-radius: 0px;
+            color: #fff;
+            white-space: nowrap;
+        }
+
+        .tile-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.2px;
+            line-height: 1.2;
+            margin-top: auto;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            word-break: break-word;
+        }
+
+        .tile-subtitle {
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+            opacity: 0.8;
+            margin-top: 2px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+        }
+
+        .tile .external-icon {
+            position: absolute;
+            bottom: 14px;
+            right: 16px;
+            font-size: 0.7rem;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .tile:hover .external-icon {
+            opacity: 1;
+        }
+
+        /* Live tile animation pulse */
+        @keyframes liveTilePulse {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .tile .live-indicator {
+            position: absolute;
+            top: 14px;
+            right: 16px;
+            width: 7px;
+            height: 7px;
+            background: #fff;
+            border-radius: 50%;
+            animation: liveTilePulse 2s infinite;
+            box-shadow: 0 0 6px rgba(255, 255, 255, 0.6);
+        }
+
+        /* Discord special styling */
+        .tile-discord {
+            background: linear-gradient(145deg, #5865f2 0%, #4752c4 100%);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .tile-discord:hover {
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 30px rgba(88, 101, 242, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 10px;
+            color: #555;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+            margin-top: 20px;
+        }
+
+        .footer span {
+            color: var(--accent);
+        }
+
+        /* Ripple effect on click */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.35);
+            transform: scale(0);
+            animation: rippleEffect 0.6s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rippleEffect {
+            to {
+                transform: scale(4);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .tile-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 140px;
+                gap: 10px;
+            }
+            .tile-wide {
+                grid-column: span 2;
+            }
+            .tile-medium {
+                grid-column: span 2;
+            }
+            .tile-small {
+                grid-column: span 1;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .tile {
+                padding: 14px 12px;
+                min-height: 140px;
+            }
+            .tile-title {
+                font-size: 0.95rem;
+            }
+            .tile-icon {
+                width: 34px;
+                height: 34px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .tile-grid {
+                grid-template-columns: repeat(2, 1fr);
+                grid-auto-rows: 130px;
+                gap: 8px;
+            }
+            .tile-wide {
+                grid-column: span 2;
+            }
+            .tile-medium {
+                grid-column: span 2;
+            }
+            .tile-small {
+                grid-column: span 2;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .tile {
+                padding: 12px 10px;
+                min-height: 130px;
+            }
+            .tile-title {
+                font-size: 0.85rem;
+            }
+            .tile-icon {
+                width: 30px;
+                height: 30px;
+            }
+            .tile-badge {
+                font-size: 0.6rem;
+                padding: 3px 7px;
+            }
+        }
+
+        /* Entrance animation */
+        @keyframes tileEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .tile {
+            animation: tileEntrance 0.5s ease forwards;
+        }
+        .tile:nth-child(1) {
+            animation-delay: 0.05s;
+        }
+        .tile:nth-child(2) {
+            animation-delay: 0.12s;
+        }
+        .tile:nth-child(3) {
+            animation-delay: 0.19s;
+        }
+        .tile:nth-child(4) {
+            animation-delay: 0.26s;
+        }
+        .tile:nth-child(5) {
+            animation-delay: 0.33s;
+        }
+
+        /* Hover glow for tiles with icons */
+        .tile.has-icon:hover .tile-icon {
+            filter: drop-shadow(0 4px 10px rgba(255, 255, 255, 0.5));
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>ReOp3n's&nbsp;<span class="highlight">Projects</span></h1>
+            <p class="subtitle">Windows Phone Ecosystem Revival</p>
+            <div class="accent-line"></div>
+        </header>
+
+        <!-- Tile Grid -->
+        <div class="tile-grid">
+
+            <!-- 1) WPydia Repo - Medium Tile - Blue -->
+            <a href="https://github.com/OpenGlebsur/OpenGlebsur-WPydia-Repo"
+            class="tile tile-medium tile-blue has-icon"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="WPydia Repository on GitHub">
+            <div class="tile-icon-row">
+                <svg class="tile-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="48" height="48" rx="4" fill="rgba(255,255,255,0.15)"/>
+                    <path d="M14 16h20v4H14zm0 8h20v2H14zm0 6h14v2H14z" fill="#fff"/>
+                    <circle cx="36" cy="36" r="5" fill="#fff" opacity="0.9"/>
+                    <path d="M34 36l1.5 1.5L37.5 34" stroke="#0078d7" stroke-width="1.5" fill="none"/>
+                </svg>
+                <span class="tile-badge">GitHub</span>
+            </div>
+            <div>
+                <div class="tile-title">WPydia Repo</div>
+                <div class="tile-subtitle">OpenGlebsur-WPydia</div>
+            </div>
+            <span class="external-icon">↗</span>
+        </a>
+
+        <!-- 2) MeMarket Repo - Medium Tile - Green -->
+        <a href="https://github.com/OpenGlebsur/WP8-MEMarketRepo"
+        class="tile tile-medium tile-green has-icon"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="MeMarket Repository on GitHub">
+        <div class="tile-icon-row">
+            <svg class="tile-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect width="48" height="48" rx="4" fill="rgba(255,255,255,0.15)"/>
+                <path d="M16 12h16l4 6-4 6H16l-4-6 4-6z" fill="#fff" opacity="0.9"/>
+                <circle cx="24" cy="24" r="8" fill="#fff" opacity="0.7"/>
+                <text x="24" y="27" text-anchor="middle" fill="#107c10" font-size="9" font-weight="bold">M</text>
+            </svg>
+            <span class="tile-badge">GitHub</span>
+        </div>
+        <div>
+            <div class="tile-title">MeMarket Repo</div>
+            <div class="tile-subtitle">WP8-MEMarketRepo</div>
+        </div>
+        <span class="external-icon">↗</span>
+    </a>
+
+    <!-- 3) 8Store Revival - Wide Tile - Red/Orange (with custom icon) -->
+    <a href="https://github.com/OpenGlebsur/8Store-3.0-server-revival"
+    class="tile tile-wide tile-orange has-icon"
+    target="_blank"
+    rel="noopener noreferrer"
+    title="8Store Revival on GitHub">
+    <div class="tile-icon-row">
+        <img
+        src="https://rework-store-revived.vercel.app/data/images/8StoreNew.png"
+        alt="8Store Icon"
+        class="tile-icon"
+        style="width:50px;height:50px;"
+        onerror="this.style.display='none';"
+        loading="lazy"
+        >
+        <span class="tile-badge">GitHub</span>
+    </div>
+    <div>
+        <div class="tile-title">8Store Revival</div>
+        <div class="tile-subtitle">8Store 3.0 Server Revival</div>
+    </div>
+    <div class="live-indicator" title="Active Project"></div>
+    <span class="external-icon">↗</span>
+</a>
+
+<!-- 4) Caelus Metro Server - Medium Tile - Teal (with custom icon) -->
+<a href="https://github.com/OpenGlebsur/Caelus-Metro-Server-"
+class="tile tile-medium tile-teal has-icon"
+target="_blank"
+rel="noopener noreferrer"
+title="Caelus Metro Server on GitHub">
+<div class="tile-icon-row">
+    <img
+    src="https://rwstoremasterserverrevived.vercel.app/data/images/caelus.png"
+    alt="Caelus Icon"
+    class="tile-icon"
+    style="width:44px;height:44px;"
+    onerror="this.style.display='none';"
+    loading="lazy"
+    >
+    <span class="tile-badge">GitHub</span>
+</div>
+<div>
+    <div class="tile-title">Caelus Metro</div>
+    <div class="tile-subtitle">Caelus Metro Server</div>
+</div>
+<span class="external-icon">↗</span>
+</a>
+
+<!-- 5) ReWindows Projects - Wide Tile - Discord Purple (with custom icon) -->
+<a href="https://discord.gg/zNGKN3Ydn9"
+class="tile tile-wide tile-discord has-icon"
+target="_blank"
+rel="noopener noreferrer"
+title="ReWindows Projects Discord Server">
+<div class="tile-icon-row">
+    <img
+    src="https://github.com/OpenGlebsur/reopenprojects/blob/main/ReWindows.webp?raw=true"
+    alt="ReWindows Icon"
+    class="tile-icon"
+    style="width:50px;height:50px;"
+    onerror="this.style.display='none';"
+    loading="lazy"
+    >
+    <span class="tile-badge">Discord</span>
+</div>
+<div>
+    <div class="tile-title">ReWindows Projects</div>
+    <div class="tile-subtitle">Join the Community on Discord</div>
+</div>
+<div class="live-indicator" title="Active Community"></div>
+<span class="external-icon">↗</span>
+</a>
+
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <p>Built with <span>♥</span> &nbsp;|&nbsp; Metro UI Style &nbsp;|&nbsp; ReOp3n's Projects &copy; 2026</p>
+</footer>
+</div>
+
+<!-- Ripple effect script -->
+<script>
+    (function() {
+        const tiles = document.querySelectorAll('.tile');
+
+        tiles.forEach(tile => {
+            tile.addEventListener('click', function(e) {
+                // Create ripple element
+                const ripple = document.createElement('span');
+                ripple.classList.add('ripple');
+
+                // Position the ripple
+                const rect = tile.getBoundingClientRect();
+                const size = Math.max(rect.width, rect.height);
+                const x = e.clientX - rect.left - size / 2;
+                const y = e.clientY - rect.top - size / 2;
+
+                ripple.style.width = ripple.style.height = size + 'px';
+                ripple.style.left = x + 'px';
+                ripple.style.top = y + 'px';
+
+                tile.appendChild(ripple);
+
+                // Remove ripple after animation
+                ripple.addEventListener('animationend', function() {
+                    ripple.remove();
+                });
+            });
+
+            // Keyboard accessibility
+            tile.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    tile.click();
+                }
+            });
+        });
+
+        // Make tiles focusable for keyboard nav
+        tiles.forEach(tile => {
+            tile.setAttribute('tabindex', '0');
+            tile.setAttribute('role', 'button');
+        });
+
+        // Log for debugging
+        console.log('%cReOp3n\'s Projects %cMetro UI %cLoaded ✓',
+            'color:#fff;font-size:1.2em;',
+            'color:#0078d7;font-size:1em;',
+            'color:#4caf50;');
+        console.log('%c5 Projects • Windows Phone Ecosystem Revival',
+            'color:#aaa;font-style:italic;');
+    })();
+</script>
+</body>
+</html>
